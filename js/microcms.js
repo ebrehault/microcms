@@ -2,7 +2,7 @@ var microcms = {};
 
 microcms.params = {
   repository: 'ebrehault/microcms',
-  branch: 'master',
+  branch: 'gh-pages',
   public_key: 'sYYCj64pggkfSav1Ycm3PpmEAwo'
 };
 
@@ -29,7 +29,7 @@ microcms.authenticate = function() {
       var base_url = 'https://api.github.com/repos/'
       + microcms.params.repository
       + '/contents/';
-      result.get(base_url + 'index.html').done(
+      result.get(base_url + 'index.html?ref=' + microcms.params.branch).done(
         function(response) {
           console.log(response);
           var sha = response.sha;
@@ -41,7 +41,7 @@ microcms.authenticate = function() {
               "content": btoa($('html')[0].outerHTML),
               "sha": sha,
               "path": 'index.html',
-              "branch": "gh-pages"
+              "branch": microcms.params.branch
             })
           }).done(function(response) {
             console.log(response);
