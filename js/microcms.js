@@ -87,10 +87,11 @@ microcms.authenticate = function() {
                   "branch": microcms.params.branch
                 })
               }).done(function(response) {                
-                // restore button
-                $("#microcms_save").text("Save");
                 console.log(response);
                 console.log(save_response);
+                // clean cache and reload
+                window.applicationCache.swapCache();
+                window.location.reload();
               });
             });
           });
