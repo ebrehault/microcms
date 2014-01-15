@@ -89,8 +89,8 @@ microcms.authenticate = function() {
               }).done(function(response) {                
                 console.log(response);
                 console.log(save_response);
-                // clean cache and reload
-                window.applicationCache.swapCache();
+                // update cache and reload
+                window.applicationCache.update();
                 window.location.reload();
               });
             });
