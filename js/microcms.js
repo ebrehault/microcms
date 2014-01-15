@@ -28,7 +28,7 @@ microcms.authenticate = function() {
   OAuth.initialize(microcms.params.public_key);
   OAuth.popup('github', function(error, result) {
     if (error) {
-      console.log(err); // do something with error
+      console.log(error); // do something with error
       return;
     }
 
