@@ -81,7 +81,7 @@ microcms.authenticate = function() {
                 url: base_url + 'cache.manifest',
                 data: JSON.stringify({
                   "message": "update manifest via microcms",
-                  "content": btoa("CACHE MANIFEST\n#"+Date()),
+                  "content": btoa("CACHE MANIFEST\n#"+Date()+"\n\nindex.html\n\nNETWORK:\n*"),
                   "sha": sha,
                   "path": 'cache.manifest',
                   "branch": microcms.params.branch
