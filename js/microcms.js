@@ -32,7 +32,8 @@ microcms.save = function() {
             "message": "updated via microcms",
             "content": btoa($('html')[0].outerHTML),
             "sha": sha,
-            "path": 'index.html'
+            "path": 'index.html',
+            "branch": "gh-pages"
           })
         }).done(function(response) {
           console.log(response);
