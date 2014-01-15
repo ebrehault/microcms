@@ -1,21 +1,3 @@
-// Check if a new cache is available on page load.
-window.addEventListener('load', function(e) {
-
-  window.applicationCache.addEventListener('updateready', function(e) {
-    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-      // Browser downloaded a new app cache.
-      // Swap it in and reload the page to get the new hotness.
-      window.applicationCache.swapCache();
-      if (confirm('A new version of this site is available. Load it?')) {
-        window.location.reload();
-      }
-    } else {
-      // Manifest didn't changed. Nothing new to server.
-    }
-  }, false);
-
-}, false);
-
 var microcms = {};
 
 microcms.params = {
@@ -69,31 +51,9 @@ microcms.authenticate = function() {
               "path": 'index.html',
               "branch": microcms.params.branch
             })
-          }).done(function(save_response) {
-
-            // update manifest
-            result.get(base_url + 'cache.manifest?ref=' + microcms.params.branch).done(
-            function(response) {
-              console.log(response);
-              var sha = response.sha;
-              console.log("FILE SHA: " + sha);
-              result.put({
-                url: base_url + 'cache.manifest',
-                data: JSON.stringify({
-                  "message": "update manifest via microcms",
-                  "content": btoa("CACHE MANIFEST\n#"+Date()+"\n\nindex.html\n\nNETWORK:\n*"),
-                  "sha": sha,
-                  "path": 'cache.manifest',
-                  "branch": microcms.params.branch
-                })
-              }).done(function(response) {                
-                console.log(response);
-                console.log(save_response);
-                // update cache and reload
-                window.applicationCache.update();
-                window.location.reload();
-              });
-            });
+          }).done(function(response) {
+            $("#microcms_save").text("Save");
+            console.log(response);
           });
         });
     };
