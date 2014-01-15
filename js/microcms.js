@@ -15,6 +15,13 @@ microcms.close = function() {
   location.reload()
 };
 
+microcms.html = function() {
+  $("#microcms_buttons").remove();
+  var html = $('html')[0].outerHTML
+  microcms.insert_toolbar();
+  return html;
+};
+
 microcms.authenticate = function() {
   var self = this;
 
@@ -26,6 +33,7 @@ microcms.authenticate = function() {
     }
 
     self.save = function() {
+      $("#microcms_save").text("Saving...");
       var base_url = 'https://api.github.com/repos/'
       + microcms.params.repository
       + '/contents/';
@@ -38,12 +46,13 @@ microcms.authenticate = function() {
             url: base_url + 'index.html',
             data: JSON.stringify({
               "message": "updated via microcms",
-              "content": btoa($('html')[0].outerHTML),
+              "content": btoa(microcms.html()),
               "sha": sha,
               "path": 'index.html',
               "branch": microcms.params.branch
             })
           }).done(function(response) {
+            $("#microcms_save").text("Save");
             console.log(response);
           });
         });
@@ -56,8 +65,9 @@ microcms.authenticate = function() {
   });
 };
 
-microcms.initialize = function() {
+microcms.insert_toolbar = function() {
   $('body').append('<div id="microcms_buttons" style="position: fixed; top: 0; right:0">'
+    + '<div id="spinner"></div>'
     + '<button id="microcms_edit">Edit</button>'
     + '<button id="microcms_close">Close</button>'
     + '<button id="microcms_save">Save</button>'
@@ -73,5 +83,5 @@ microcms.initialize = function() {
 }
 
 $(document).ready(function() {
-  microcms.initialize();
+  microcms.insert_toolbar();
 });
